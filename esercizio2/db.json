@@ -1,0 +1,74 @@
+{
+  "customers": [
+    {
+      "id": 1,
+      "firstName": "Mario",
+      "lastName": "Rossi",
+      "email": "mario@rossi.it",
+      "phone": 1234567890
+    },
+    {
+      "id": 2,
+      "firstName": "Luigi",
+      "lastName": "Verdi",
+      "email": "luigi@verdi.it",
+      "phone": 1234567890
+    },
+    {
+      "firstName": "Carlo",
+      "lastName": "Bianchi",
+      "email": "carlo@bianchi.it",
+      "phone": "1234567890",
+      "id": 3
+    }
+  ],
+  "appointments": [
+    {
+      "id": 1,
+      "customer": 1,
+      "date": 1671118500000,
+      "note": "Nota test 1"
+    },
+    {
+      "customer": "1",
+      "date": 1670945400000,
+      "note": "nuovo appuntamento",
+      "id": 3
+    },
+    {
+      "customer": "2",
+      "date": 1671204600000,
+      "note": "test test",
+      "id": 4
+    },
+    {
+      "customer": "3",
+      "date": 1671532200000,
+      "note": "nessuna",
+      "id": 6
+    }
+  ],
+  "dossiers": [
+    {
+      "id": 1,
+      "customer": 1,
+      "date": 1670772884744,
+      "title": "Pratica 1",
+      "description": "Odit necessitatibus eum ab magni. Cumque cum reiciendis ratione sit esse architecto fugit ipsum placeat. Rerum unde nam iusto sed numquam sint!"
+    },
+    {
+      "id": 2,
+      "customer": 1,
+      "date": 1670775884744,
+      "title": "Pratica 2",
+      "description": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. "
+    },
+    {
+      "customer": "3",
+      "date": 1670887366202,
+      "title": "Nuova pratica",
+      "description": "descrizione",
+      "id": 3
+    }
+  ]
+}

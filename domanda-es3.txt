@@ -1,0 +1,19 @@
+
+DOMANDA:
+
+Un fratello ed una sorella possiedono parti uguali in un’azienda. 
+Gli azionisti di minoranza detengono le restanti 12.000 azioni o il 30% della società.
+Qual è il numero di azioni che possiede la sorella?
+
+
+
+RISPOSTA:
+
+Quota sorella: (100% - 30%) / 2 = 35%
+
+
+Azioni sorella : 35 = 12000 : 30
+
+Azioni sorella = 35 * 12000 / 30
+
+Azioni sorella = 14000

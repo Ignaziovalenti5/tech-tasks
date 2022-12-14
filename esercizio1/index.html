@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esercizio 1</title>
+    <link rel="stylesheet" href="./assets/style.css">
+</head>
+
+<body>
+    <div id="main">
+
+        <div class="header">
+            <h1>Registrazione - Gioco Online</h1>
+        </div>
+
+        <div class="steps">
+            <div class="rounded bordered">1</div>
+            <div class="rounded">2</div>
+            <div class="rounded">3</div>
+        </div>
+
+        <div class="pre-progress">
+            <div class="progress d-none">
+                <p>Caricamento documenti...</p>
+                <div class="progress-bar">
+                    <div class="progress-span"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="forms-container">
+
+            <form id="step1" class="step">
+                <label for="first-name">Nome</label>
+                <input type="text" name="first-name">
+                <label for="last-name">Cognome</label>
+                <input type="text" name="last-name">
+                <label for="card-id">Documento d'Identità<span>*Immagine fronte/retro</span></label>
+                <input type="file" name="card-id" id="card-id">
+                <button type="submit" id="btn-1" class="send-btn">Invia</button>
+            </form>
+
+            <form id="step2" class="d-none step">
+                <label for="cart">Carta di Credito<span>*Immagine fronte/retro</span></label>
+                <input type="file" name="cart">
+                <label for="address">Indirizzo di residenza</label>
+                <input type="text" name="address">
+                <label for="nazionality">Nazionalità</label>
+                <select name="nazionality" id="nationality"></select>
+                <label for="age">Età</label>
+                <input type="number" name="age">
+                <button type="submit" id="btn-2" class="send-btn" disabled>Invia</button>
+                <p class="info d-none">*Per inviare attendi il caricamento dello step precedente</p>
+            </form>
+
+            <form id="step3" class="d-none step">
+
+                <label for="generic">PDF Generico</label>
+                <input type="file" name="generic">
+                <button type="submit" id="btn-3" class="send-btn" disabled>Invia</button>
+                <p class="info d-none">*Per inviare attendi il caricamento dello step precedente</p>
+            </form>
+            
+            <div class="success d-none step">
+                <p class="info d-none">*Attendi il caricamento dello step finale</p>
+                <p>Invio effettuato con successo!</p>
+            </div>
+
+        </div>
+
+
+
+    </div>
+    <script src="./assets/script.js"></script>
+</body>
+
+</html>

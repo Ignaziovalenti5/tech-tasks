@@ -1,0 +1,55 @@
+<div id="main">
+
+    <div *ngIf="isLoading" class="d-flex justify-content-center align-items-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="new-appointment">
+            <div class=" d-flex align-items-center justify-content-end">
+                <h4>Nuovo appuntamento</h4>
+                <button class="btn btn-outline-success ms-2" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">+</button>
+            </div>
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">Crea Nuovo Appuntamento</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <label for="customer">Cliente:</label>
+                      <select [(ngModel)]="newAppointment.customer" id="customer" name="customer" class="form-select mb-3">
+                        <option value="0">Seleziona un Cliente</option>
+                            <option *ngFor="let customer of customers" value="{{customer.id}}">{{customer.firstName}} {{customer.lastName}}</option>
+                      </select>
+                      <hr>
+                      <label for="date">Data e Ora:</label>
+                      <input [(ngModel)]="newAppointment.date" class="form-control" type="datetime-local" name="date" id="date">
+                      <hr>
+                      <label for="note">Note:</label>
+                      <textarea [(ngModel)]="newAppointment.note" class="form-control" type="text" name="note" id="note"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                      <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="createAppointment()">Salva Appuntamento</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+
+        <div class="py-3">
+            <h6 class="text-uppercase"> Lista Appuntamenti</h6>
+        </div>
+
+
+        <app-appointment *ngFor="let appointment of appointments" [appointment]="appointment"></app-appointment>
+
+
+
+    </div>
+</div>

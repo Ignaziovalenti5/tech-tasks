@@ -1,0 +1,175 @@
+<div id="main">
+    <div *ngIf="isLoading" class="d-flex justify-content-center align-items-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="new-appointment">
+            <div class=" d-flex align-items-center justify-content-end">
+                <h4>Nuovo Cliente</h4>
+                <button class="btn btn-success ms-2" type="button" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal1">+</button>
+            </div>
+            <div class=" d-flex align-items-center justify-content-end mt-3">
+                <h5>Nuova Pratica</h5>
+                <button class="btn btn-outline-success ms-2" type="button" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal2">+</button>
+            </div>
+            <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Crea Nuovo Cliente</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <label for="customer">Nome:</label>
+                            <input [(ngModel)]="newCustomer.firstName" class="form-control mb-3" type="text"
+                                name="first-name" id="first-name">
+                            <label for="customer">Cognome:</label>
+                            <input [(ngModel)]="newCustomer.lastName" class="form-control" type="text" name="last-name"
+                                id="last-name">
+                            <hr>
+                            <label for="customer">E-mail:</label>
+                            <input [(ngModel)]="newCustomer.email " class="form-control mb-3" type="email" name="e-mail"
+                                id="e-mail">
+                            <label for="customer">Telefono:</label>
+                            <input [(ngModel)]="newCustomer.phone" class="form-control" type="phone" name="phone"
+                                id="phone">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                            <button type="button" class="btn btn-success" data-bs-dismiss="modal"
+                                (click)="postNewCustomer()">Salva
+                                Cliente</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Crea Nuova Pratica</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <label for="customer">Cliente:</label>
+                            <select [(ngModel)]="newDossier.customer" id="customer" name="customer"
+                                class="form-select mb-3">
+                                <option value=0>Seleziona un Cliente</option>
+                                <option *ngFor="let customer of customers" value={{customer.id}}>
+                                    {{customer.firstName}} {{customer.lastName}}</option>
+                            </select>
+                            <label for="titolo">Titolo:</label>
+                            <input [(ngModel)]="newDossier.title" class="form-control mb-3" type="text" name="titolo"
+                                id="titolo">
+                            <label for="descrizione">Descrizione:</label>
+                            <textarea [(ngModel)]="newDossier.description" class="form-control mb-3" type="text"
+                                name="descrizione id=" descrizione></textarea>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                            <button type="button" class="btn btn-success" data-bs-dismiss="modal"
+                                (click)="postNewDossier()">Salva
+                                Pratica</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="isEditing" class="w-50">
+            <h5>Modifica Cliente</h5>
+            <label for="customer">Nome:</label>
+            <input value="{{customers[ind].firstName}}" [(ngModel)]="customers[ind].firstName" class="form-control mb-1" type="text"
+                name="first-name" id="first-name">
+            <label for="customer">Cognome:</label>
+            <input value="{{customers[ind].lastName}}" [(ngModel)]="customers[ind].lastName" class="form-control mb-1" type="text"
+                name="last-name" id="last-name">
+                <label for="customer">E-mail:</label>
+                <input value="{{customers[ind].email}}" [(ngModel)]="customers[ind].email" class="form-control mb-1" type="email"
+                name="e-mail" id="e-mail">
+                <label for="customer">Telefono:</label>
+                <input value="{{customers[ind].phone}}" [(ngModel)]="customers[ind].phone" class="form-control" type="phone" name="phone"
+                id="phone">
+                <div class="modal-footer mt-3">
+                    <button type="button" class="btn btn-secondary me-2"
+                    data-bs-dismiss="modal" (click)="isEditing = false">Chiudi</button>
+                    <button type="button" class="btn btn-success"
+                    (click)="editCustomer(customers[ind].id!, ind)">Salva
+                    Cliente</button>
+                </div>
+                <hr>
+            </div>
+
+        <div class="py-3">
+            <h6 class="text-uppercase"> Lista Clienti</h6>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">E-mail</th>
+                    <th scope="col">Telefono</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let customer of customers; let i = index">
+                    <th scope="row">{{customer.id}}</th>
+                    <td>{{customer.lastName}} {{customer.firstName}}</td>
+                    <td>{{customer.email}}</td>
+                    <td>{{customer.phone}}</td>
+                    <td>
+                        <button class="btn btn-success me-2 rounded-pill" type="button" data-bs-toggle="modal"
+                            data-bs-target="#dossiers"
+                            (click)="dossiersForCustomerPopulate(customer.id!)">Pratiche</button>
+                        <button class="btn btn-warning rounded-circle" (click)="isEditing = true;ind = i"><i
+                                class="bi bi-pencil-square"></i></button>
+                        <button class="btn btn-danger ms-2 rounded-circle" (click)="deleteCustomer(customer.id!)"><i
+                                class="bi bi-trash3-fill"></i></button>
+                    </td>
+                    <div class="modal fade" id="dossiers" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Lista Pratiche</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p *ngIf="dossierForCustomer.length === 0">Nessuna Pratica associata a questo
+                                        cliente!
+                                    </p>
+
+                                    <div *ngFor="let dossier of dossierForCustomer">
+                                        <p>Titolo: <span class="fs-5"> {{dossier.title}}</span></p>
+                                        <small>Descrizione:</small>
+                                        <p>{{dossier.description}}</p>
+                                        <small>Data:</small>
+                                        <p>{{convertDossierDate(dossier.date)}}</p>
+                                        <hr>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </tr>
+
+            </tbody>
+        </table>
+
+
+
+    </div>
+</div>

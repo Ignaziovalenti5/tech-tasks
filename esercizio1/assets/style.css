@@ -1,0 +1,169 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+html {
+    width: 100%;
+    min-height: 100vh;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #ffffff;
+    position: relative;
+}
+
+html::before {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-image: url('../img/bg.jpeg');
+    background-size: cover;
+    background-position: right;
+    opacity: .3;
+    z-index: -1;
+}
+
+.header {
+    text-align: center;
+    color: #000;
+    font-size: 1.5rem;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(56, 56, 56, 0.4);
+    padding: 5px 0;
+}
+
+.steps {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 320px;
+    justify-content: space-between;
+    color: rgb(78, 193, 255);
+    font-size: 1.5rem;
+    margin: 50px auto 30px;
+}
+
+.steps .rounded {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 1px solid rgb(78, 193, 255);
+
+}
+
+.forms-container {
+    background-color: #fff;
+    color: #000;
+    max-width: 300px;
+    padding: 50px;
+    box-shadow: 0 0 10px rgba(56, 56, 56, 0.4);
+    margin: 0 auto;
+}
+
+.forms-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.forms-container form input,
+.forms-container form select {
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.forms-container form label span {
+    font-size: 10px;
+    margin-left: 10px;
+}
+
+.forms-container form button {
+    padding: 10px;
+    font-size: 20px;
+    background-color: #0080ff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.forms-container form button:disabled {
+    background-color: #8fadc4;
+    cursor: default;
+}
+
+.forms-container form button:enabled:hover {
+    background-color: #0091ff;
+}
+
+.info {
+    font-size: 10px;
+}
+
+.pre-progress {
+    min-height: 30px;
+}
+
+.progress {
+    color: #3d3d3d;
+    width: 300px;
+    margin: -25px auto 20px;
+}
+
+.progress-bar {
+    width: 300px;
+    height: 8px;
+    margin-top: -10px;
+    border: 1px solid rgb(78, 193, 255);
+    background-color: #fff;
+    border-radius: 25px;
+    overflow: hidden;
+    transition: all;
+}
+
+.progress-span {
+    width: 300px;
+    height: 8px;
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient 3s ease infinite;
+}
+
+.bordered {
+    border: 5px solid rgb(78, 193, 255) !important;
+}
+
+.fill {
+    background-color: rgb(78, 193, 255) !important;
+    color: #fff;
+}
+
+.waiting {
+    background-color: rgb(212, 240, 255) !important;
+}
+
+.d-none {
+    display: none !important;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+        opacity: 0.8;
+	}
+	50% {
+		background-position: 100% 50%;
+        opacity: 0.5;
+	}
+	100% {
+		background-position: 0% 50%;
+        opacity: 1;
+	}
+}
+
+
+
+
