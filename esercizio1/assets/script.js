@@ -1,26 +1,30 @@
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js'
+import { getStorage, getDownloadURL, uploadBytesResumable, ref } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js'
+
 const nationalitySelect = document.querySelector('#nationality')
 
 const step1Button = document.querySelector('#btn-1')
 const step2Button = document.querySelector('#btn-2')
 const step3Button = document.querySelector('#btn-3')
 
-const step1Form = document.querySelector('#step1')
-const step2Form = document.querySelector('#step2')
 const step3Form = document.querySelector('#step3')
 
 const roundedDivs = document.querySelectorAll('.rounded')
 const stepDivs = document.querySelectorAll('.step')
 const sendBtn = document.querySelectorAll('.send-btn')
-const successDiv = document.querySelector('.success')
 
-let firstName = document.querySelector('input[name=first-name]').value
-let lastName = document.querySelector('input[name=last-name]').value
-let idCard = document.querySelector('input[name=card-id]')
-let cart = document.querySelector('input[name=cart]')
-let address = document.querySelector('input[name=address]').value
-let nazionality = nationalitySelect.value
-let age = document.querySelector('input[name=age]').value
-let generic = document.querySelector('input[name=generic]')
+const firstName = document.querySelector('input[name=first-name]').value
+const lastName = document.querySelector('input[name=last-name]').value
+const idCard = document.querySelector('input[name=card-id]')
+const cart = document.querySelector('input[name=cart]')
+const address = document.querySelector('input[name=address]').value
+const nationality = nationalitySelect.value
+const age = document.querySelector('input[name=age]').value
+const generic = document.querySelector('input[name=generic]')
+const progressBar = document.querySelector('.progress')
+const info = document.querySelectorAll('.info')
+
+const prog = document.querySelector('#prog')
 
 const urlStep1 = 'https://6393424311ed187986b052bb.mockapi.io/step1'
 const urlStep2 = 'https://6393424311ed187986b052bb.mockapi.io/step2'
@@ -28,51 +32,95 @@ const urlStep3 = 'https://6393424311ed187986b052bb.mockapi.io/step3'
 
 let stepsIndex = 0
 
+const firebaseApp = initializeApp({
+    apiKey: "AIzaSyBVCC6nMk_kxn7U3nQ1_o87yadzTv72FVA",
+    authDomain: "task-aqua.firebaseapp.com",
+    projectId: "task-aqua",
+    storageBucket: "task-aqua.appspot.com",
+    messagingSenderId: "843300568626",
+    appId: "1:843300568626:web:364c204f888d9ecb76462b",
+    measurementId: "G-CT9HYC8LMK"
+})
+
+const storage = getStorage(firebaseApp)
+
 
 // API per popolare la select della nazionalità
 
 fetch("https://restcountries.com/v3.1/all")
-.then(res => res.json())
-.then(res => {
+    .then(res => res.json())
+    .then(res => {
 
-    let nations = []
+        let nations = []
 
-    for (let n of res) {
-        nations.push(n.name.common)
-    }
+        for (let n of res) {
+            nations.push(n.name.common)
+        }
 
-    nations.sort()
+        nations.sort()
 
-    for (let n of nations) {
-        let opt = document.createElement('option')
-        opt.innerText = n
-        opt.value = n
-        nationalitySelect.appendChild(opt)
-    }
-})
+        for (let n of nations) {
+            let opt = document.createElement('option')
+            opt.innerText = n
+            opt.value = n
+            nationalitySelect.appendChild(opt)
+        }
+    })
 
 
-// Funzione per convertire i file come Base64
 
-const convertBase64 = async (file) => {
-    return new Promise((resolve, reject) => {
-        const fileReader = new FileReader();
-        fileReader.readAsDataURL(file);
+// Funzione per il caricamento dei files su firebase
 
-        fileReader.onload = () => {
-            resolve(fileReader.result);
-        };
+const uploadFile = (file) => {
+    if (!file) return
 
-        fileReader.onerror = (error) => {
-            reject(error);
-        };
-    });
-};
+    const storageRef = ref(storage, `files/${file.name}`)
+    const uploadTask = uploadBytesResumable(storageRef, file)
 
+    uploadTask.on("state_changed", (snapshot) => {
+        const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        )
+        const progressSpan = document.querySelector('.progress-span')
+        prog.innerText = progress
+        progressSpan.style.width = `${progress}%`
+
+    }, (err) => console.err(err),
+        () => {
+            getDownloadURL(uploadTask.snapshot.ref)
+                .then(url => {
+                    console.log('caricamento effettuato!', url);
+
+                    if (stepsIndex < 2) {
+                        roundedDivs[stepsIndex + 1].classList.add('bordered')
+                        sendBtn[stepsIndex + 1].removeAttribute('disabled')
+                    } else {
+                        stepDivs[stepsIndex].classList.add('d-none')
+                        stepDivs[stepsIndex + 1].classList.remove('d-none')
+                    }
+
+                    progressBar.classList.add('d-none')
+                    info[stepsIndex].classList.add('d-none')
+                    // info.classList.remove('info')
+
+                    for (const d of roundedDivs) {
+                        if (d.classList.contains('waiting')) {
+                            d.classList.remove('waiting')
+                            d.classList.add('fill')
+                        }
+                    }
+                    prog.innerText = 0
+                    stepsIndex++
+                }
+                )
+        })
+}
 
 // Funzione per l'invio dei dati
 
-async function fetchData(url, data) {
+async function fetchData(url, data, file) {
+
+    if (!file) return
 
     if (stepsIndex < 2) {
         stepDivs[stepsIndex].classList.add('d-none')
@@ -83,8 +131,8 @@ async function fetchData(url, data) {
 
     let progress = document.querySelector('.progress')
     progress.classList.remove('d-none')
-    let info = document.querySelector('.info')
-    if (info) info.classList.remove('d-none')
+
+    info[stepsIndex].classList.remove('d-none')
 
     try {
         const response = await fetch(url, {
@@ -99,24 +147,7 @@ async function fetchData(url, data) {
         console.log('Success:', response);
         console.log('Success:', result);
 
-        if (stepsIndex < 2) {
-            roundedDivs[stepsIndex + 1].classList.add('bordered')
-            sendBtn[stepsIndex + 1].removeAttribute('disabled')
-        } else {
-            stepDivs[stepsIndex].classList.add('d-none')
-            stepDivs[stepsIndex + 1].classList.remove('d-none')
-        }
-
-        progress.classList.add('d-none')
-        info.classList.add('d-none')
-        info.classList.remove('info')
-        for (const d of roundedDivs) {
-            if (d.classList.contains('waiting')) {
-                d.classList.remove('waiting')
-                d.classList.add('fill')
-            }
-        }
-        stepsIndex++
+        uploadFile(file)
 
     } catch (err) {
         console.error('Error:', err);
@@ -129,16 +160,12 @@ async function fetchData(url, data) {
 step1Button.addEventListener('click', async (e) => {
     e.preventDefault()
 
-    const fileConverted = await convertBase64(idCard.files[0]);
-
     const data = new FormData();
 
     data.append('first-name', firstName);
     data.append('last-name', lastName);
-    data.append('id-card', fileConverted);
 
-    console.log(data);
-    fetchData(urlStep1, data)
+    fetchData(urlStep1, data, idCard.files[0])
 
 })
 
@@ -148,15 +175,13 @@ step1Button.addEventListener('click', async (e) => {
 step2Button.addEventListener('click', async (e) => {
     e.preventDefault()
 
-    const fileConverted = await convertBase64(cart.files[0]);
-
     const data = new FormData();
 
-    data.append('cart', fileConverted);
     data.append('address', address);
+    data.append('nationality', nationality);
     data.append('age', age);
 
-    fetchData(urlStep2, data)
+    fetchData(urlStep2, data, cart.files[0])
 
 })
 
@@ -166,22 +191,14 @@ step2Button.addEventListener('click', async (e) => {
 step3Button.addEventListener('click', async (e) => {
     e.preventDefault()
 
-    const fileConverted = await convertBase64(generic.files[0]);
-
     for (let c of step3Form.children) {
         c.setAttribute('disabled', true)
     }
 
-    let progress = document.querySelector('.progress')
-    progress.classList.remove('d-none')
-    let info = document.querySelector('.info')
-    if (info) info.classList.remove('d-none')
-
-
+    progressBar.classList.remove('d-none')
+    
     const data = new FormData();
 
-    data.append('generic', fileConverted);
-
-    fetchData(urlStep3, data)
+    fetchData(urlStep3, data, generic.files[0])
 })
 

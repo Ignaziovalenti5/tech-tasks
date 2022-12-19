@@ -125,11 +125,10 @@ html::before {
 }
 
 .progress-span {
-    width: 300px;
+    width: 0px;
     height: 8px;
     background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
     background-size: 400% 400%;
-    animation: gradient 3s ease infinite;
 }
 
 .bordered {
@@ -149,20 +148,7 @@ html::before {
     display: none !important;
 }
 
-@keyframes gradient {
-	0% {
-		background-position: 0% 50%;
-        opacity: 0.8;
-	}
-	50% {
-		background-position: 100% 50%;
-        opacity: 0.5;
-	}
-	100% {
-		background-position: 0% 50%;
-        opacity: 1;
-	}
-}
+
 
 
 

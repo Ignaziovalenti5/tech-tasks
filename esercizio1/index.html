@@ -24,7 +24,7 @@
 
         <div class="pre-progress">
             <div class="progress d-none">
-                <p>Caricamento documenti...</p>
+                <p>Caricamento in corso: <span id="prog">0</span> %</p>
                 <div class="progress-bar">
                     <div class="progress-span"></div>
                 </div>
@@ -49,7 +49,7 @@
                 <label for="address">Indirizzo di residenza</label>
                 <input type="text" name="address">
                 <label for="nazionality">Nazionalità</label>
-                <select name="nazionality" id="nationality"></select>
+                <select name="nationality" id="nationality"></select>
                 <label for="age">Età</label>
                 <input type="number" name="age">
                 <button type="submit" id="btn-2" class="send-btn" disabled>Invia</button>
@@ -74,7 +74,7 @@
 
 
     </div>
-    <script src="./assets/script.js"></script>
+    <script type="module" src="./assets/script.js"></script>
 </body>
 
 </html>
